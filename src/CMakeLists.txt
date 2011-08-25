@@ -8,10 +8,10 @@ ADD_DEFINITIONS( -fPIC )
 
 include_directories ( ${PROJECT_SOURCE_DIR}/include )
 include_directories ( ${PROJECT_SOURCE_DIR}/src )
-include_directories ( ${CUDA_CUT_INCLUDE_DIR} )
+include_directories ( ${CUDA_SDK_ROOT_DIR}/common/inc )
 
 cuda_add_library( turbopix SHARED Turbopixels.cpp turbopix.cu reduction.cu recursiveGaussian.cu )
-target_link_libraries ( turbopix ${CUDA_CUT_LIBRARY} )
+target_link_libraries ( turbopix )
 
 ###############################################################################
 ################ CUSTOM LINKING: OpenCV (C++) + CUDA ##########################
@@ -19,14 +19,12 @@ target_link_libraries ( turbopix ${CUDA_CUT_LIBRARY} )
 # We don't need opencv to create the library, but we do for the executable
 # We need custom linking for opencv for now, because we use cuda_add_executable
 
-# HERE IS HOW TO DO IT: (No, find_package(OpenCV) does not work for us.
-
-rosbuild_find_ros_package( opencv2 )
-find_library( CVLIB NAMES cv.so HINTS ${opencv2_PACKAGE_PATH}/lib )
-include_directories ( ${opencv2_PACKAGE_PATH}/opencv/include )
-link_directories ( ${opencv2_PACKAGE_PATH}/lib )
+include_directories (/usr/include/opencv-2.3.1/)
+#link_directories ( /usr/lib/opencv-2.3.1/)
 cuda_add_executable( example_tpix example.cpp )
-target_link_libraries ( example_tpix ${CVLIB} ${CUDA_CUT_LIBRARY} turbopix )
+#target_link_libraries ( example_tpix ${CVLIB} ${CUDA_CUT_LIBRARY} turbopix )
+#target_link_libraries ( example_tpix ${CVLIB} turbopix )
+target_link_libraries ( example_tpix opencv_core opencv_highgui turbopix )
 
 #target_link_libraries ( turbopix cv ${CUDA_CUT_LIBRARY})
 #common commands for building c++ executables and libraries
