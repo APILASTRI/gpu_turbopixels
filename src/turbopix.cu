@@ -855,7 +855,7 @@ void _initialize(int dev, long width, long height)
 }
 
 // Image in RGB encoded in an unsigned long
-void prepare_image(uint64_t* input_img)
+void prepare_image(const uint64_t* input_img)
 {
   // Zero out these two arrays. Their sizes are padded to next-pow2 to simplify the reduction
 	// kernel, but those extra padded entries MUST NOT have garbage in them.
@@ -879,7 +879,7 @@ void prepare_image(uint64_t* input_img)
 }
 
 // Prepare image if input is already float and normalized
-void prepare_image(float *input_img)
+void prepare_image(const float *input_img)
 {
 	// Zero out these two arrays. Their sizes are padded to next-pow2 to simplify the reduction
 	// kernel, but those extra padded entries MUST NOT have garbage in them.
@@ -900,7 +900,7 @@ void prepare_image(float *input_img)
 }
 
 // Prepare image if input is uchars 
-void prepare_image(unsigned char* input_img)
+void prepare_image(const unsigned char* input_img)
 {
 	// Zero out these two arrays. Their sizes are padded to next-pow2 to simplify the reduction
 	// kernel, but those extra padded entries MUST NOT have garbage in them.
