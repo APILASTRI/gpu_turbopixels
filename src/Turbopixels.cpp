@@ -70,11 +70,11 @@ namespace tpix {
     _initialize(dev, width, height);
   }
 
-  int Turbopixels::process(unsigned int* dst, uint64_t* src){
+  int Turbopixels::process(unsigned int* dst, const uint64_t* src){
     return extractSuperpixels(dst, src);  
   }
 
-  int Turbopixels::process(unsigned int* dst, unsigned char* src){
+  int Turbopixels::process(unsigned int* dst, const unsigned char* src){
     return extractSuperpixels(dst, src);  
   }
 }

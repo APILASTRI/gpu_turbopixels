@@ -122,7 +122,7 @@ namespace tpix {
      *
      */
     int
-    process (unsigned int* dst, float *src);
+    process (unsigned int* dst, const float *src);
 
     /**
      * \brief Process image to create superpixels
@@ -132,7 +132,7 @@ namespace tpix {
      *
      */
     int
-    process (unsigned int* dst, unsigned char* src);
+    process (unsigned int* dst, const unsigned char* src);
 
     /**
      * \brief Process image to create superpixels
@@ -143,7 +143,7 @@ namespace tpix {
      *
      */
     int
-    process (unsigned int* dst, uint64_t *src);
+    process (unsigned int* dst, const uint64_t *src);
 
   };
 }

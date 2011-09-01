@@ -1001,8 +1001,8 @@ void _cleanup()
 }
 
 // Template explicit instantiation
-template int extractSuperpixels(unsigned int* output, unsigned char* input_img);
-template int extractSuperpixels(unsigned int* output, float* input_img);
-template int extractSuperpixels(unsigned int* output, uint64_t* input_img);
+template int extractSuperpixels(unsigned int* output, const unsigned char* input_img);
+template int extractSuperpixels(unsigned int* output, const float* input_img);
+template int extractSuperpixels(unsigned int* output, const uint64_t* input_img);
 
 
