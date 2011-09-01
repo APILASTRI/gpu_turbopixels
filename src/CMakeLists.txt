@@ -1,10 +1,16 @@
 cmake_minimum_required( VERSION 2.8 )
 
 # This CMakeLists is assumed to be loaded from the parent CMakeLists and inherits
-# all the CUDA variables and ROS stuff
+# all the CUDA variables
 
 ADD_DEFINITIONS( -fPIC )
 
+set(CPACK_PACKAGE_NAME python-turbopixels)
+set(CPACK_PACKAGE_VERSION 3.0)
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+set(CPACK_PACKAGE_CONTACT "amueller@ais.uni-bonn.de")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Turbopixel using CUDA by Alvaro Collet and Alex Rodionov")
+INCLUDE(CPack)
 
 include_directories ( ${PROJECT_SOURCE_DIR}/include )
 include_directories ( ${PROJECT_SOURCE_DIR}/src )
@@ -26,11 +32,12 @@ cuda_add_executable( example_tpix example.cpp )
 #target_link_libraries ( example_tpix ${CVLIB} turbopix )
 target_link_libraries ( example_tpix opencv_core opencv_highgui turbopix )
 
-#target_link_libraries ( turbopix cv ${CUDA_CUT_LIBRARY})
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(extract_3d_features src/extract_3d_features.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+FIND_PACKAGE( Boost 1.37 COMPONENTS python REQUIRED )
+FIND_PACKAGE( PythonLibs )
+PYTHON_ADD_MODULE(turbopixel_python SHARED turbopixel_python.cpp)
+
+target_link_libraries(turbopixel_python
+    ${Boost_PYTHON_LIBRARY_RELEASE}
+    ${PYTHON_LIBRARY}
+    turbopix
+    )
