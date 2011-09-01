@@ -43,8 +43,9 @@
 #include <pyublas/numpy.hpp>
 #include "../include/Turbopixels.h"
 
+using namespace boost::python;
 pyublas::numpy_matrix<int>
-apply_turbopixels(const pyublas::numpy_vector<unsigned char> & image, const int & device){
+apply_turbopixels(const pyublas::numpy_vector<unsigned char> & image, const int & nSuperpixels, const int & device){
     const size_t ndims = image.ndim();
     if (ndims != 3)
         throw("Only RGB images supported.");
@@ -53,12 +54,12 @@ apply_turbopixels(const pyublas::numpy_vector<unsigned char> & image, const int 
     const int width = dims[1];
     pyublas::numpy_matrix<unsigned int> result(height, width);
 
-    tpix::Turbopixels turbopixels(width, height, device);
+    tpix::Turbopixels turbopixels(device, width, height, nSuperpixels);
     turbopixels.process(result.data().begin(), image.data().begin());
     return result;
     
 }
 
 BOOST_PYTHON_MODULE(turbopixel_python){
-    boost::python::def("turbopixels", apply_turbopixels);
+    def("turbopixels", apply_turbopixels, (arg("image"), arg("nSuperpixels"), arg("device")=0));
 }
